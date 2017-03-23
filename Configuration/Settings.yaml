@@ -1,0 +1,4 @@
+#TYPO3:
+#  TypoScript:
+#    defaultContext:
+#      'Dotpulse.MediaHelper': 'Dotpulse\MediaHelper\Eel\Helper\MediaHelper'
