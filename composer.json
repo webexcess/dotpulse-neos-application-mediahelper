@@ -2,7 +2,7 @@
     "name": "dotpulse/mediahelper",
     "type": "typo3-flow-package",
     "description": "Add TYPO3.Media console enhancements",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "require": {
         "typo3/neos": "~2.1"
     },

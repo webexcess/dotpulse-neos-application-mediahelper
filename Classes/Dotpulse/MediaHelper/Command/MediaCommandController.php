@@ -92,11 +92,15 @@ class MediaCommandController extends CommandController
      * @param string $toCollection The Collection that gets added
      * @param string $fromTag Process Assets with this tag
      * @param string $fromCollection Process Assets with this collection
+     * @param boolean $dryRun Test the execution - default: false
      * @return void
      */
-    public function addTagCommand($toTag, $toCollection = '', $fromTag = '', $fromCollection = '')
+    public function addTagCommand($toTag, $toCollection = '', $fromTag = '', $fromCollection = '', $dryRun = false)
     {
         $this->consoleBackend->open();
+        if ($dryRun) {
+            $this->consoleBackend->append('DRY RUN', LOG_WARNING);
+        }
         $this->consoleBackend->append('Search Assets with tag "' . $fromTag . '"' . (!empty($fromCollection) ? ' and collection "' . $fromCollection . '"' : '') . ' and add them to the tag "' . $toTag . '"' . (!empty($toCollection) ? ' and collection "' . $toCollection . '"' : '') . '.', LOG_NOTICE);
 
         /** @var Tag $fromTagObject */
@@ -125,15 +129,25 @@ class MediaCommandController extends CommandController
         /** @var Asset $asset */
         foreach ($assets as $asset) {
             $this->consoleBackend->append($asset->getIdentifier());
-            //$asset->addTag($toTagObject);
+            if (!$dryRun) {
+                $asset->addTag($toTagObject);
+            }
             $this->consoleBackend->append(' -> add tag '.$toTagObject->getLabel());
             if (!is_null($toCollectionObject)) {
                 $this->consoleBackend->append(' -> add collection '.$toCollectionObject->getTitle());
-                //$asset->getAssetCollections()->add($toCollectionObject);
+                if (!$dryRun) {
+                    $assetCollection = $asset->getAssetCollections();
+                    $assetCollection->add($toCollectionObject);
+                    $asset->setAssetCollections($assetCollection);
+                }
+            }
+            if (!$dryRun) {
+                $this->assetRepository->update($asset);
             }
         }
-
-
+        if (!$dryRun) {
+            $this->persistenceManager->persistAll();
+        }
     }
 
 }
