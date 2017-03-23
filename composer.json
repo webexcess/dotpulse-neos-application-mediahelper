@@ -1,0 +1,25 @@
+{
+    "name": "dotpulse/mediahelper",
+    "type": "typo3-flow-package",
+    "description": "Add TYPO3.Media console enhancements",
+    "version": "2.1.0",
+    "require": {
+        "typo3/neos": "~2.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Dotpulse\\MediaHelper": "Classes"
+        }
+    },
+    "support": {
+        "email": "webmaster@webexcess.ch"
+    },
+    "authors": [
+        {
+            "name": "Stefan Bruggmann",
+            "email": "stefan.bruggmann@webexcess.ch",
+            "homepage": "https://github.com/sbruggmann",
+            "role": "Developer"
+        }
+    ]
+}
